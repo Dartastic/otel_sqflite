@@ -1,9 +1,9 @@
 name: otel_sqflite
-description: OpenTelemetry instrumentation for `package:sqflite` /
-  `package:sqflite_common`. Extension methods on DatabaseExecutor that
-  wrap query / insert / update / delete / rawQuery with
-  `db.system=sqlite` semconv spans.
-version: 0.1.0-beta.1-wip
+description: >-
+  OpenTelemetry instrumentation for `package:sqflite` / `sqflite_common`.
+  Extensions on DatabaseExecutor wrapping query, insert, update, delete and
+  rawQuery with `db.*` spans.
+version: 0.1.0-wip
 repository: https://github.com/dartastic/otel_sqflite
 homepage: https://dartastic.io
 
@@ -11,8 +11,8 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  dartastic_opentelemetry: ^1.1.0-beta.4
-  dartastic_opentelemetry_api: ^1.0.0-beta.6
+  dartastic_opentelemetry: ^1.1.0-beta.12
+  dartastic_opentelemetry_api: ^1.0.0-rc.1
   sqflite_common: ^2.5.0
 
 dev_dependencies:

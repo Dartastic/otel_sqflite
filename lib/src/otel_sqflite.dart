@@ -20,18 +20,16 @@ Attributes _attrs({
   String? sql,
 }) =>
     OTel.attributesFromMap(<String, Object>{
-      Database.dbSystem.key: _dbSystem,
-      Database.dbSystemName.key: _dbSystem,
-      Database.dbOperation.key: operation,
-      Database.dbOperationName.key: operation,
-      if (table != null) Database.dbCollectionName.key: table,
-      if (sql != null) Database.dbQueryText.key: sql,
+      Db.dbSystemName.key: _dbSystem,
+      Db.dbOperationName.key: operation,
+      if (table != null) Db.dbCollectionName.key: table,
+      if (sql != null) Db.dbQueryText.key: sql,
     });
 
 /// Generic helper. Opens a CLIENT span named
-/// `sqlite <op> [<table>]` with `db.system=sqlite`,
-/// `db.operation=<op>`, `db.collection.name=<table>` (when known),
-/// and `db.query.text=<sql>` (when raw SQL is provided).
+/// `sqlite <op> [<table>]` with `db.system.name=sqlite`,
+/// `db.operation.name=<op>`, `db.collection.name=<table>` (when
+/// known), and `db.query.text=<sql>` (when raw SQL is provided).
 Future<R> tracedSqfliteCall<R>({
   required String operation,
   String? table,
@@ -49,7 +47,7 @@ Future<R> tracedSqfliteCall<R>({
     return await invoke();
   } on DatabaseException catch (e, st) {
     span.addAttributes(OTel.attributes([
-      OTel.attributeString(ErrorResource.errorType.key, 'DatabaseException'),
+      OTel.attributeString(ErrorAttributes.errorType.key, 'DatabaseException'),
     ]));
     span.recordException(e, stackTrace: st);
     span.setStatus(SpanStatusCode.Error, e.toString());
@@ -57,7 +55,7 @@ Future<R> tracedSqfliteCall<R>({
   } catch (e, st) {
     span.addAttributes(OTel.attributes([
       OTel.attributeString(
-        ErrorResource.errorType.key,
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));

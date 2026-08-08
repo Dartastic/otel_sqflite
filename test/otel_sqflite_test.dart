@@ -57,9 +57,9 @@ void main() {
       expect(span.kind, equals(SpanKind.client));
       expect(span.name, equals('sqlite insert users'));
       final attrs = _attrs(span);
-      expect(attrs['db.system'], equals('sqlite'));
-      expect(attrs['db.operation'], equals('insert'));
-      expect(attrs['db.collection.name'], equals('users'));
+      expect(attrs[Db.dbSystemName.key], equals('sqlite'));
+      expect(attrs[Db.dbOperationName.key], equals('insert'));
+      expect(attrs[Db.dbCollectionName.key], equals('users'));
     });
 
     test('records SQL text for raw operations', () async {
@@ -70,7 +70,7 @@ void main() {
         invoke: () async {},
       );
       final attrs = _attrs(exporter.spans.single);
-      expect(attrs['db.query.text'], equals(sql));
+      expect(attrs[Db.dbQueryText.key], equals(sql));
     });
 
     test('exception flips span to Error', () async {
@@ -84,7 +84,7 @@ void main() {
       );
       final span = exporter.spans.single;
       expect(span.status, equals(SpanStatusCode.Error));
-      expect(_attrs(span)['error.type'], equals('StateError'));
+      expect(_attrs(span)[ErrorAttributes.errorType.key], equals('StateError'));
     });
 
     test('runWithoutSqfliteInstrumentationAsync bypasses spans', () async {

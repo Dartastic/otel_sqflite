@@ -22,8 +22,8 @@ await db.tracedExecute('CREATE INDEX idx_users_name ON users(name)');
 
 Each call emits a CLIENT span:
 - name: `sqlite <op> [<table>]`
-- `db.system = sqlite`
-- `db.operation = query` / `insert` / `update` / `delete` / `raw_query` / `execute`
+- `db.system.name = sqlite`
+- `db.operation.name = query` / `insert` / `update` / `delete` / `raw_query` / `execute`
 - `db.collection.name = <table>` (when applicable)
 - `db.query.text = <sql>` (for raw operations)
 

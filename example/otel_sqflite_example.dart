@@ -35,8 +35,7 @@ Future<void> demo(DatabaseExecutor db) async {
   );
   print('queried ${rows.length} row(s)');
 
-  final counts =
-      await db.tracedRawQuery('SELECT COUNT(*) AS n FROM users');
+  final counts = await db.tracedRawQuery('SELECT COUNT(*) AS n FROM users');
   print('total: ${counts.single['n']}');
 
   await db.tracedDelete('users', where: 'id = ?', whereArgs: [id]);

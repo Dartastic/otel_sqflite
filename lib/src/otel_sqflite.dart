@@ -1,7 +1,7 @@
 // Licensed under the Apache License, Version 2.0
 // Copyright 2025, Mindful Software LLC, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 // sqflite_common's `Database` clashes with the OTel semconv `Database`
 // enum; hide it here since the extension below uses `DatabaseExecutor`,
 // which is the broader interface anyway.
@@ -12,14 +12,14 @@ import 'sqflite_suppression.dart';
 const _tracerName = 'otel_sqflite';
 const _dbSystem = 'sqlite';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 Attributes _attrs({
   required String operation,
   String? table,
   String? sql,
 }) =>
-    OTel.attributesFromMap(<String, Object>{
+    OTelAPI.attributesFromMap(<String, Object>{
       Db.dbSystemName.key: _dbSystem,
       Db.dbOperationName.key: operation,
       if (table != null) Db.dbCollectionName.key: table,
@@ -46,15 +46,16 @@ Future<R> tracedSqfliteCall<R>({
   try {
     return await invoke();
   } on DatabaseException catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(ErrorAttributes.errorType.key, 'DatabaseException'),
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+          ErrorAttributes.errorType.key, 'DatabaseException'),
     ]));
     span.recordException(e, stackTrace: st);
     span.setStatus(SpanStatusCode.Error, e.toString());
     rethrow;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
         ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),

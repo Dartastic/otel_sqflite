@@ -3,7 +3,7 @@ description: >-
   OpenTelemetry instrumentation for `package:sqflite` / `sqflite_common`.
   Extensions on DatabaseExecutor wrapping query, insert, update, delete and
   rawQuery with `db.*` spans.
-version: 0.2.0
+version: 0.2.1-wip
 repository: https://github.com/dartastic/otel_sqflite
 homepage: https://dartastic.io
 

@@ -3,7 +3,7 @@ description: >-
   OpenTelemetry instrumentation for sqflite_common by Dartastic.io. Adds
   standard OpenTelemetry observability to applications that use
   sqflite_common.
-version: 0.2.1-wip
+version: 0.2.1
 repository: https://github.com/dartastic/otel_sqflite
 homepage: https://dartastic.io
 
